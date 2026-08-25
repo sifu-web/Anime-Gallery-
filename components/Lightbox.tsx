@@ -60,7 +60,7 @@ export default function Lightbox({
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative mx-auto max-h-[70vh] w-full overflow-hidden rounded-xl bg-surface">
+        <div className="relative mx-auto max-h-[70vh] w-fit overflow-hidden rounded-xl bg-surface">
           <div className="absolute -inset-6">
             <ProtectedImage
               src={previewUrl}
