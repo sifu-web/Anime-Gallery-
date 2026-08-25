@@ -1,8 +1,8 @@
-import { sql } from '@lib/db';
-import { CATEGORIES, CATEGORY_LIST } from '@lib/categories';
-import { transformedUrl } from '@lib/imagekit-url';
-import CategoryCard from '@components/CategoryCard';
-import Reveal from '@components/Reveal';
+import { sql } from '../lib/db';
+import { CATEGORIES, CATEGORY_LIST } from '../lib/categories';
+import { transformedUrl } from '../lib/imagekit-url';
+import CategoryCard from '../components/CategoryCard';
+import Reveal from '../components/Reveal';
 
 const DEFAULT_COVERS: Record<string, string> = {
   'profile-pic': '/covers/profile-pic.jpg',
@@ -41,11 +41,11 @@ export default async function HomePage() {
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">Premium Gallery</p>
         </div>
 
-        <h1 className="mt-2 max-w-2xl font-display leading-tight">
-          <span className="block text-5xl md:text-7xl font-black tracking-tight bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.5)]">
+        <h1 className="mt-2 font-display leading-none">
+          <span className="block text-6xl md:text-8xl font-black tracking-tighter bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent" style={{WebkitTextFillColor: 'transparent', textShadow: 'none'}}>
             ANIME
           </span>
-          <span className="block text-5xl md:text-7xl font-black tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.5)]">
+          <span className="block text-6xl md:text-8xl font-black tracking-tighter bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent" style={{WebkitTextFillColor: 'transparent', textShadow: 'none'}}>
             GALLERY
           </span>
         </h1>
