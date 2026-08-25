@@ -12,6 +12,15 @@ export default function AdminCategoryPage({ params }: { params: { category: stri
   if (!isCategory(params.category)) notFound();
   const meta = CATEGORIES[params.category];
 
+  async function setCover(url: string) {
+    await fetch('/api/categories/cover', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ category: params.category, cover_url: url }),
+    });
+    alert('Cover photo updated!');
+  }
+
   return (
     <main className="mx-auto min-h-screen max-w-6xl px-5 pb-32 pt-10">
       <a href="/admin/dashboard" className="mb-6 inline-flex items-center gap-1 text-sm text-muted hover:text-ink">
@@ -24,7 +33,7 @@ export default function AdminCategoryPage({ params }: { params: { category: stri
       </div>
 
       <div className="mt-8">
-        <GalleryGrid key={refreshKey} category={params.category} isAdmin />
+        <GalleryGrid key={refreshKey} category={params.category} isAdmin onSetCover={setCover} />
       </div>
     </main>
   );

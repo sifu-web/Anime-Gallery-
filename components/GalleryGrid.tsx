@@ -22,7 +22,7 @@ async function downloadBlobResponse(res: Response, filename: string) {
   URL.revokeObjectURL(url);
 }
 
-export default function GalleryGrid({ category, isAdmin }: { category: Category; isAdmin: boolean }) {
+export default function GalleryGrid({ category, isAdmin, onSetCover }: { category: Category; isAdmin: boolean; onSetCover?: (url: string) => void }) {
   const [items, setItems] = useState<ImageItem[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -195,6 +195,7 @@ export default function GalleryGrid({ category, isAdmin }: { category: Category;
         onClear={() => setSelected(new Set())}
         onDownload={bulkDownload}
         onDelete={isAdmin ? bulkDelete : undefined}
+              onSetCover={isAdmin ? onSetCover : undefined}
         isAdmin={isAdmin}
         busy={bulkBusy}
       />

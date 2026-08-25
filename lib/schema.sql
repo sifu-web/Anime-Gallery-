@@ -30,3 +30,9 @@ CREATE INDEX IF NOT EXISTS idx_images_category_created
 
 CREATE INDEX IF NOT EXISTS idx_images_imagekit_file_id
   ON images (imagekit_file_id);
+
+CREATE TABLE IF NOT EXISTS category_covers (
+  category TEXT PRIMARY KEY,
+  cover_url TEXT NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);

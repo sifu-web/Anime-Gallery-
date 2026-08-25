@@ -9,18 +9,28 @@ export default function ImageCard({
   selected,
   onToggleSelect,
   onOpen,
-  onDirectDownload
+  onDirectDownload,
+  onSetCover
 }: {
   image: ImageItem;
   selected: boolean;
   onToggleSelect: () => void;
   onOpen: () => void;
   onDirectDownload: () => void;
+  onSetCover?: () => void;
 }) {
   const thumb = transformedUrl(image.thumbnail_url, { width: 480, quality: 65 });
 
   return (
     <div className="group relative aspect-[3/4] overflow-hidden rounded-xl bg-surface">
+      {onSetCover && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onSetCover(); }}
+          className="absolute top-2 right-2 z-20 rounded-full bg-black/60 px-2 py-1 text-xs font-bold text-yellow-300 border border-yellow-400/40 hover:bg-yellow-400/20 transition-colors"
+        >
+          Cover
+        </button>
+      )}
       <button onClick={onOpen} className="absolute inset-0" aria-label={`Open ${image.title}`}>
         <Image
           src={thumb}
