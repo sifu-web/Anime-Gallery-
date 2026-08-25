@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-edge;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Elements start hidden and only animate in once IntersectionObserver
+     adds .is-visible — this keeps off-screen content from animating
+     (and costing frames) until it actually matters. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    will-change: transform, opacity;
+  }
+  .reveal.is-visible {
+    animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #16161e 0%, #1e1e28 50%, #16161e 100%);
+    background-size: 800px 100%;
+    @apply animate-shimmer;
+  }
+
+  .glass {
+    background: rgba(18, 18, 24, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
