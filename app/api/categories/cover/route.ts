@@ -7,6 +7,11 @@ export const runtime = 'nodejs';
 export async function POST(req: NextRequest) {
   const token = req.cookies.get(SESSION_COOKIE.name)?.value;
   const session = token ? await verifySessionToken(token) : null;
+  // This was previously computed but never checked — anyone could POST
+  // here without logging in and overwrite a category's cover image.
+  if (!session) {
+    return NextResponse.json({ error: 'Admin login required.' }, { status: 401 });
+  }
 
   const { category, cover_url } = await req.json().catch(() => ({}));
 

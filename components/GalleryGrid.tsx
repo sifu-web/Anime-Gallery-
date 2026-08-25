@@ -91,13 +91,29 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
   async function directDownload(image: ImageItem) {
     if (!isAdmin) await runAdExperience();
     fetch(`/api/images/${image.id}`, { method: 'PATCH', body: JSON.stringify({ action: 'download' }) }).catch(() => {});
-    const a = document.createElement('a');
-    a.href = image.file_url;
-    a.download = `${image.title || 'wallpaper'}.jpg`;
-    a.target = '_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+
+    // Fetch the file as a blob and save it via a blob: URL instead of
+    // pointing an <a> straight at image.file_url. This matters for two
+    // reasons: (1) with target="_blank" + a real CDN URL, some mobile
+    // browsers just open the image in a new tab where it's trivially
+    // long-press-saved anyway, bypassing the ad step entirely; (2) it
+    // keeps the download behaviour identical to bulkDownload's blob flow,
+    // so there's one consistent, harder-to-intercept path.
+    try {
+      const res = await fetch(image.file_url);
+      if (!res.ok) throw new Error('fetch failed');
+      await downloadBlobResponse(res, `${image.title || 'wallpaper'}.jpg`);
+    } catch {
+      // Fallback so a network hiccup doesn't leave the user with nothing —
+      // worst case they get the old open-in-new-tab behaviour.
+      const a = document.createElement('a');
+      a.href = image.file_url;
+      a.download = `${image.title || 'wallpaper'}.jpg`;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   }
 
   async function bulkDownload() {

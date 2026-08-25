@@ -23,6 +23,45 @@
 }
 
 @layer utilities {
+  /* ------------------------------------------------------------------
+     Image-protection utilities.
+     These make long-press / right-click "Save Image" meaningfully
+     harder on mobile + desktop browsers. IMPORTANT: this is a deterrent,
+     not a wall — a determined user can always screenshot the screen.
+     Real protection (gating full-res behind the ad flow) happens
+     server-side; see lib/imagekit-url.ts + the /api/images route.
+     ------------------------------------------------------------------ */
+  .protected-img {
+    /* iOS Safari: disables the long-press "Save Image / Copy" callout */
+    -webkit-touch-callout: none;
+    /* Stops the browser's native drag-out-to-save gesture */
+    -webkit-user-drag: none;
+    user-drag: none;
+    /* Stops text/image selection highlighting on long-press */
+    -webkit-user-select: none;
+    user-select: none;
+    /* Extra insurance: some Android browsers respect this for save-image */
+    pointer-events: none;
+  }
+
+  /* Sits directly on top of a .protected-img inside a relatively
+     positioned wrapper. Because THIS div (not the <img>) is what the
+     finger/cursor actually touches, the browser's long-press menu
+     targets a plain <div> instead of the image element — on most
+     mobile browsers that means no "Download image" / "Save image"
+     option appears at all. Clicks still pass through to the button
+     underneath because pointer-events on the img above is disabled
+     and this overlay's own click is forwarded via onClick in React. */
+  .protected-img-shield {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   /* Elements start hidden and only animate in once IntersectionObserver
      adds .is-visible — this keeps off-screen content from animating
      (and costing frames) until it actually matters. */

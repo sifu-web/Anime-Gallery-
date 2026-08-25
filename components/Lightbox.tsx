@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { transformedUrl } from '@/lib/imagekit-url';
 import type { ImageItem } from '@/lib/types';
+import ProtectedImage from './ProtectedImage';
 
 export default function Lightbox({
   image,
@@ -37,7 +37,12 @@ export default function Lightbox({
     };
   }, [onClose]);
 
-  const previewUrl = transformedUrl(image.file_url, { width: 1600, quality: 85 });
+  // Lightbox preview is intentionally capped lower than a "real" download:
+  // 1000px / q60 is plenty to judge the wallpaper on a phone screen, but
+  // is a noticeably worse file than what the ad-gated download delivers.
+  // This narrows the incentive to long-press/screenshot this preview
+  // instead of just going through Download.
+  const previewUrl = transformedUrl(image.file_url, { width: 1000, quality: 60 });
 
   return (
     <div
@@ -56,7 +61,7 @@ export default function Lightbox({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative mx-auto max-h-[70vh] w-full overflow-hidden rounded-xl bg-surface">
-          <Image
+          <ProtectedImage
             src={previewUrl}
             alt={image.title}
             width={image.width ?? 1600}
@@ -64,6 +69,20 @@ export default function Lightbox({
             className="mx-auto max-h-[70vh] w-auto object-contain"
             priority
           />
+          {/* Faint repeating watermark over the preview only — never on the
+              actual downloaded file. Makes a screenshot/long-press grab
+              visibly worse than just clicking Download. Purely CSS, no
+              extra image request. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-20 flex select-none items-center justify-center overflow-hidden opacity-[0.12]"
+          >
+            <div className="grid w-[200%] rotate-[-25deg] grid-cols-3 gap-x-10 gap-y-10 text-center font-display text-sm font-bold uppercase tracking-widest text-white">
+              {Array.from({ length: 24 }).map((_, i) => (
+                <span key={i}>Anime Gallery</span>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="glass flex flex-wrap items-center justify-between gap-3 rounded-xl border border-edge px-4 py-3">

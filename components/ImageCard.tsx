@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { transformedUrl } from '@/lib/imagekit-url';
 import type { ImageItem } from '@/lib/types';
+import ProtectedImage from './ProtectedImage';
 
 export default function ImageCard({
   image,
@@ -32,7 +32,7 @@ export default function ImageCard({
         </button>
       )}
       <button onClick={onOpen} className="absolute inset-0" aria-label={`Open ${image.title}`}>
-        <Image
+        <ProtectedImage
           src={thumb}
           alt={image.title}
           fill
