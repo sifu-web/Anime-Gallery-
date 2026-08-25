@@ -4,29 +4,28 @@ import type { Category } from '@/lib/categories';
 
 const ACCENT_CLASSES: Record<string, { ring: string; text: string; glow: string; badge: string }> = {
   sakura: {
-    ring: 'group-hover:ring-sakura/60',
-    text: 'text-sakura',
-    glow: 'group-hover:shadow-glow',
-    badge: 'bg-sakura/10 text-sakura'
+    ring: 'group-hover:ring-violet-500/60',
+    text: 'text-violet-400',
+    glow: 'hover:shadow-[0_20px_60px_-12px_rgba(124,58,237,0.5),0_0_0_1px_rgba(124,58,237,0.15)]',
+    badge: 'bg-violet-500/15 text-violet-300'
   },
   aurora: {
-    ring: 'group-hover:ring-aurora/60',
-    text: 'text-aurora',
-    glow: 'group-hover:shadow-glow-aurora',
-    badge: 'bg-aurora/10 text-aurora'
+    ring: 'group-hover:ring-cyan-500/60',
+    text: 'text-cyan-400',
+    glow: 'hover:shadow-[0_20px_60px_-12px_rgba(6,182,212,0.5),0_0_0_1px_rgba(6,182,212,0.15)]',
+    badge: 'bg-cyan-500/15 text-cyan-300'
   },
   amber: {
-    ring: 'group-hover:ring-amber/60',
-    text: 'text-amber',
-    glow: 'group-hover:shadow-[0_0_0_1px_rgba(255,180,84,0.15),0_8px_40px_-8px_rgba(255,180,84,0.25)]',
-    badge: 'bg-amber/10 text-amber'
+    ring: 'group-hover:ring-emerald-500/60',
+    text: 'text-emerald-400',
+    glow: 'hover:shadow-[0_20px_60px_-12px_rgba(16,185,129,0.5),0_0_0_1px_rgba(16,185,129,0.15)]',
+    badge: 'bg-emerald-500/15 text-emerald-300'
   }
 };
 
 export default function CategoryCard({
   category,
   label,
-  description,
   accent,
   previewUrl,
   index
@@ -43,8 +42,20 @@ export default function CategoryCard({
   return (
     <Link
       href={`/gallery/${category}`}
-      className={`group relative flex flex-col justify-end overflow-hidden rounded-2xl border border-edge bg-surface ring-1 ring-transparent transition-all duration-500 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.8)] hover:-translate-y-2 hover:shadow-[0_35px_80px_-12px_rgba(0,0,0,0.95)] ${a.glow} h-[420px] md:h-[480px]`}
+      className={`group relative flex flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-surface ring-1 ring-transparent transition-all duration-500 ${a.glow} h-[420px] md:h-[480px]`}
+      style={{
+        transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)',
+        transformStyle: 'preserve-3d',
+        transition: 'transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.transform = 'perspective(1000px) rotateX(3deg) rotateY(-3deg) translateY(-8px) scale(1.02)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale(1)';
+      }}
     >
+      {/* Background image */}
       <div className="absolute inset-0 overflow-hidden">
         {previewUrl ? (
           <Image
@@ -52,39 +63,39 @@ export default function CategoryCard({
             alt={label}
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.08]"
             priority={index === 0}
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-surface-2 via-surface to-void" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-transparent" />
+        {/* Dark gradient overlay — stronger at bottom */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
       </div>
 
-      <div className={`absolute inset-0 rounded-2xl ring-1 ring-inset ring-edge transition-all duration-500 ${a.ring}`} />
+      {/* Shine effect on hover */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
 
-      <div className="relative z-10 flex flex-col gap-2 p-6">
-        <span className={`w-fit rounded-full px-2.5 py-1 text-xs font-mono ${a.badge}`}>
+      {/* Ring border */}
+      <div className={`absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10 transition-all duration-500 ${a.ring}`} />
+
+      {/* Content — bottom */}
+      <div className="relative z-10 flex flex-col gap-3 p-6">
+        <span className={`w-fit rounded-full px-2.5 py-1 text-xs font-mono font-bold tracking-widest backdrop-blur-sm ${a.badge}`}>
           0{index + 1}
         </span>
-        <h3 className="font-display text-2xl font-semibold text-ink">{label}</h3>
-        <p className="max-w-[34ch] text-sm text-muted">{description}</p>
-        <span className={`mt-2 inline-flex items-center gap-1 text-sm font-medium ${a.text}`}>
+
+        <h3 className="font-display text-3xl font-black text-white leading-tight tracking-tight drop-shadow-lg">
+          {label}
+        </h3>
+
+        <span className={`inline-flex items-center gap-1.5 text-sm font-semibold ${a.text}`}>
           Browse gallery
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            className="transition-transform duration-300 group-hover:translate-x-1"
-          >
-            <path
-              d="M3 8h10m0 0L9 4m4 4L9 12"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+            className="transition-transform duration-300 group-hover:translate-x-1">
+            <path d="M3 8h10m0 0L9 4m4 4L9 12"
+              stroke="currentColor" strokeWidth="1.5"
+              strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </span>
       </div>
