@@ -21,15 +21,18 @@ export default function Lightbox({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Mount transparent, then flip a class next frame so the fade/scale-in
-    // is a real CSS transition rather than an instant snap.
     const id = requestAnimationFrame(() => setMounted(true));
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
+    // Push history entry so mobile back button closes lightbox
+    history.pushState({ lightbox: true }, '');
+    const onPop = () => onClose();
+    window.addEventListener('popstate', onPop);
     return () => {
       cancelAnimationFrame(id);
       window.removeEventListener('keydown', onKey);
+      window.removeEventListener('popstate', onPop);
       document.body.style.overflow = '';
     };
   }, [onClose]);
