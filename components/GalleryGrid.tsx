@@ -90,9 +90,14 @@ export default function GalleryGrid({ category, isAdmin }: { category: Category;
 
   async function directDownload(image: ImageItem) {
     if (!isAdmin) await runAdExperience();
-    const res = await fetch(image.file_url);
     fetch(`/api/images/${image.id}`, { method: 'PATCH', body: JSON.stringify({ action: 'download' }) }).catch(() => {});
-    await downloadBlobResponse(res, `${image.title || 'wallpaper'}.jpg`);
+    const a = document.createElement('a');
+    a.href = image.file_url;
+    a.download = `${image.title || 'wallpaper'}.jpg`;
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 
   async function bulkDownload() {
