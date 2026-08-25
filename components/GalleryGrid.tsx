@@ -168,10 +168,12 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
               <button
                 onClick={() => deleteSingle(image.id)}
                 aria-label="Delete image"
+          {isAdmin && (
                 className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-md bg-red-500/80 text-white opacity-0 transition-opacity duration-200 group-hover/tile:opacity-100 focus:opacity-100"
               >
                 ×
               </button>
+          )}
             )}
           </div>
         ))}
