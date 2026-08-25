@@ -1,44 +1,63 @@
 'use client';
 
+import { useState } from 'react';
 import Image, { type ImageProps } from 'next/image';
 
 /**
- * Wraps next/image with the strongest *frontend* deterrents against
- * "long-press / right-click → save image" on the visible preview.
- *
- * Layers used (each one is bypassable on its own — stacking them is what
- * raises the effort required):
- *  1. protected-img CSS: kills iOS long-press callout, drag-out-to-save,
- *     and disables pointer-events on the <img> itself.
- *  2. A transparent shield <div> placed ON TOP of the image, so the
- *     browser's context menu / long-press targets that div, not an
- *     <img> element — most mobile browsers only offer "Save image"
- *     when the touch target IS an <img>.
- *  3. onContextMenu / onDragStart preventDefault() for desktop
- *     right-click and click-drag saving.
- *
- * NOTE: none of this stops screenshots, and it must NOT be relied on as
- * the actual access control — that has to happen server-side (don't ship
- * the real file_url to the client before the ad step; see lib/ads.ts +
- * the download routes).
+ * Wraps next/image with:
+ *  1. The long-press/right-click deterrents (see prior version's notes).
+ *  2. A network-aware loading state: a shimmer placeholder covers the
+ *     image until the browser actually fires onLoad. There's no fake
+ *     minimum delay — on a fast connection/cache hit this resolves in
+ *     a frame or two and the shimmer never really registers; on a slow
+ *     connection it stays up for as long as the real download takes.
+ *     This directly replaces the old behaviour where a slow-loading
+ *     image just showed as a flat black box (bg-surface is #000000)
+ *     until it popped in, which read as a broken/glitchy screen.
+ *  3. A soft opacity fade-in once the image is ready, instead of a
+ *     hard pop-in.
  */
 export default function ProtectedImage(props: ImageProps) {
-  const { className, ...rest } = props;
+  const { className, onLoad, onError, ...rest } = props;
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   return (
-    <div className="relative h-full w-full">
-      <Image
-        {...rest}
-        draggable={false}
-        onContextMenu={(e) => e.preventDefault()}
-        onDragStart={(e) => e.preventDefault()}
-        className={`protected-img ${className ?? ''}`}
-      />
-      {/* The shield absorbs the actual long-press/right-click gesture. */}
-      <div
-        className="protected-img-shield"
-        onContextMenu={(e) => e.preventDefault()}
-      />
+    <div className="relative h-full w-full overflow-hidden">
+      {!loaded && !failed && (
+        <div className="skeleton absolute inset-0 z-0" aria-hidden />
+      )}
+
+      {failed ? (
+        <div className="absolute inset-0 z-0 flex items-center justify-center bg-surface text-xs text-muted">
+          Image failed to load
+        </div>
+      ) : (
+        <Image
+          {...rest}
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
+          onDragStart={(e) => e.preventDefault()}
+          onLoad={(e) => {
+            setLoaded(true);
+            onLoad?.(e);
+          }}
+          onError={(e) => {
+            setFailed(true);
+            onError?.(e);
+          }}
+          className={`protected-img relative z-[1] transition-opacity duration-500 ease-out ${
+            loaded ? 'opacity-100' : 'opacity-0'
+          } ${className ?? ''}`}
+        />
+      )}
+
+      {!failed && (
+        <div
+          className="protected-img-shield"
+          onContextMenu={(e) => e.preventDefault()}
+        />
+      )}
     </div>
   );
 }
