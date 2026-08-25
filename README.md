@@ -96,3 +96,4 @@ lib/                 db, auth, imagekit, ads, shared types/config
 scripts/             one-time admin seed script
 lib/schema.sql        Postgres schema
 ```
+
