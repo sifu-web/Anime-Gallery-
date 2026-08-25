@@ -69,20 +69,6 @@ export default function Lightbox({
             className="mx-auto max-h-[70vh] w-auto object-contain"
             priority
           />
-          {/* Faint repeating watermark over the preview only — never on the
-              actual downloaded file. Makes a screenshot/long-press grab
-              visibly worse than just clicking Download. Purely CSS, no
-              extra image request. */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-20 flex select-none items-center justify-center overflow-hidden opacity-[0.12]"
-          >
-            <div className="grid w-[200%] rotate-[-25deg] grid-cols-3 gap-x-10 gap-y-10 text-center font-display text-sm font-bold uppercase tracking-widest text-white">
-              {Array.from({ length: 24 }).map((_, i) => (
-                <span key={i}>Anime Gallery</span>
-              ))}
-            </div>
-          </div>
         </div>
 
         <div className="glass flex flex-wrap items-center justify-between gap-3 rounded-xl border border-edge px-4 py-3">
