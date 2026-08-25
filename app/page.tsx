@@ -1,8 +1,8 @@
-import { sql } from '@/lib/db';
-import { CATEGORIES, CATEGORY_LIST } from '@/lib/categories';
-import { transformedUrl } from '@/lib/imagekit-url';
-import CategoryCard from '@/components/CategoryCard';
-import Reveal from '@/components/Reveal';
+import { sql } from '@lib/db';
+import { CATEGORIES, CATEGORY_LIST } from '@lib/categories';
+import { transformedUrl } from '@lib/imagekit-url';
+import CategoryCard from '@components/CategoryCard';
+import Reveal from '@components/Reveal';
 
 const DEFAULT_COVERS: Record<string, string> = {
   'profile-pic': '/covers/profile-pic.jpg',
@@ -24,7 +24,7 @@ async function getPreviewUrls() {
       `) as { file_url: string }[];
       previews[category] = rows[0] ? transformedUrl(rows[0].file_url, { width: 800, quality: 65 }) : DEFAULT_COVERS[category];
     } catch {
-      previews[category] = DEFAULT_COVERS[category]; // DB not configured yet / empty table — show default cover
+      previews[category] = DEFAULT_COVERS[category];
     }
   }
   return previews;
@@ -36,14 +36,19 @@ export default async function HomePage() {
   return (
     <main className="mx-auto min-h-screen max-w-6xl px-5 pb-24 pt-16 md:pt-24">
       <Reveal>
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">Anime Gallery</p>
-        <h1 className="mt-3 max-w-2xl font-display text-4xl font-semibold leading-tight md:text-6xl">
-          Wallpapers that feel like a still from your favorite scene.
+        <div className="mb-2 flex items-center gap-2">
+          <span className="inline-block w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">Premium Gallery</p>
+        </div>
+
+        <h1 className="mt-2 max-w-2xl font-display leading-tight">
+          <span className="block text-5xl md:text-7xl font-black tracking-tight bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.5)]">
+            ANIME
+          </span>
+          <span className="block text-5xl md:text-7xl font-black tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(168,85,247,0.5)]">
+            GALLERY
+          </span>
         </h1>
-        <p className="mt-4 max-w-xl text-muted">
-          Fast-loading, high-resolution profile pictures and wallpapers — pick a category to start
-          browsing.
-        </p>
       </Reveal>
 
       <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-3">
