@@ -21,7 +21,7 @@ export default function SelectionBar({
 
   return (
     <div className="fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
-      <div className="glass flex items-center gap-3 rounded-full border border-edge px-4 py-2.5 shadow-glow">
+      <div className="glass flex items-center gap-3 rounded-full border border-edge px-4 py-2.5 shadow-glow shadow-[0_4px_0_rgba(0,0,0,0.5),0_8px_20px_rgba(0,0,0,0.5)]">
         <span className="font-mono text-sm text-ink">
           {count} / {MAX_SELECTION} selected
         </span>
@@ -35,7 +35,7 @@ export default function SelectionBar({
           <button
             onClick={onDelete}
             disabled={busy}
-            className="rounded-full bg-red-500/10 px-3 py-1.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
+            className="rounded-full bg-red-500/15 px-3 py-1.5 text-sm font-medium text-red-400 shadow-[0_2px_0_rgba(0,0,0,0.4)] transition-all active:translate-y-[1px] active:shadow-none hover:bg-red-500/25 disabled:opacity-50"
           >
             Delete selected
           </button>
@@ -43,7 +43,7 @@ export default function SelectionBar({
         <button
           onClick={onDownload}
           disabled={busy}
-          className="rounded-full bg-sakura px-4 py-1.5 text-sm font-medium text-void transition-transform hover:scale-[1.03] disabled:opacity-50"
+          className="rounded-full bg-sakura px-4 py-1.5 text-sm font-medium text-void shadow-[0_2px_0_rgba(0,0,0,0.4)] transition-all hover:scale-[1.03] active:translate-y-[1px] active:shadow-none disabled:opacity-50"
         >
           {busy ? 'Preparing…' : 'Download selected'}
         </button>

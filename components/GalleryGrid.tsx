@@ -183,9 +183,12 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
             />
             {isAdmin && (
               <button
-                onClick={() => deleteSingle(image.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteSingle(image.id);
+                }}
                 aria-label="Delete image"
-                className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-md bg-red-500/80 text-white opacity-0 transition-opacity duration-200 group-hover/tile:opacity-100 focus:opacity-100"
+                className="absolute bottom-2 left-2 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-red-400/50 bg-gradient-to-b from-red-500/70 to-red-800/80 text-base font-bold text-white shadow-[0_2px_0_rgba(0,0,0,0.55),0_4px_8px_rgba(0,0,0,0.45)] transition-all duration-150 active:translate-y-[2px] active:shadow-[0_0px_0_rgba(0,0,0,0.55)]"
               >
                 ×
               </button>

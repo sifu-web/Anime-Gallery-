@@ -16,6 +16,18 @@ async function getPreviewUrls() {
   const previews: Record<string, string | null> = {};
   for (const category of CATEGORY_LIST) {
     try {
+      // An admin-picked cover always wins. Only when nothing has been
+      // manually set for this category do we fall back to the most
+      // recently uploaded image, then to the static default asset.
+      const coverRows = (await sql`
+        SELECT cover_url FROM category_covers WHERE category = ${category}
+      `) as { cover_url: string }[];
+
+      if (coverRows[0]) {
+        previews[category] = transformedUrl(coverRows[0].cover_url, { width: 800, quality: 65 });
+        continue;
+      }
+
       const rows = (await sql`
         SELECT file_url FROM images
         WHERE category = ${category}
