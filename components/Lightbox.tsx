@@ -63,10 +63,16 @@ export default function Lightbox({
         <div className="relative mx-auto max-h-[70vh] w-full overflow-hidden rounded-xl bg-surface">
           <ProtectedImage
             src={previewUrl}
+            alt=""
+            fill
+            className="object-cover scale-110 blur-2xl opacity-60"
+          />
+          <ProtectedImage
+            src={previewUrl}
             alt={image.title}
             width={image.width ?? 1600}
             height={image.height ?? 900}
-            className="mx-auto max-h-[70vh] w-auto object-contain"
+            className="relative mx-auto max-h-[70vh] w-auto object-contain drop-shadow-2xl"
             priority
           />
         </div>
