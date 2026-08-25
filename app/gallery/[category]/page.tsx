@@ -27,7 +27,7 @@ export default function GalleryCategoryPage({ params }: { params: { category: st
         ← All categories
       </a>
       <h1 className="font-display text-3xl font-semibold md:text-4xl">{meta.label}</h1>
-      <p className="mt-2 max-w-xl text-muted">{meta.description}</p>
+      
 
       <div className="mt-8">
         <GalleryPageClient category={params.category} />
