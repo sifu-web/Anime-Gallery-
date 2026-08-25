@@ -13,12 +13,21 @@ export default function AdminCategoryPage({ params }: { params: { category: stri
   const meta = CATEGORIES[params.category];
 
   async function setCover(url: string) {
-    await fetch('/api/categories/cover', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ category: params.category, cover_url: url }),
-    });
-    alert('Cover photo updated!');
+    try {
+      const res = await fetch('/api/categories/cover', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category: params.category, cover_url: url }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        alert('Cover photo update failed: ' + (data.error || res.statusText));
+        return;
+      }
+      alert('Cover photo updated!');
+    } catch (err) {
+      alert('Cover photo update failed: network error.');
+    }
   }
 
   return (
