@@ -195,7 +195,6 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
         onClear={() => setSelected(new Set())}
         onDownload={bulkDownload}
         onDelete={isAdmin ? bulkDelete : undefined}
-              onSetCover={isAdmin ? onSetCover : undefined}
         isAdmin={isAdmin}
         busy={bulkBusy}
       />
