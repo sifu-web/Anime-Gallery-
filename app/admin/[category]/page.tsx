@@ -21,7 +21,7 @@ export default function AdminCategoryPage({ params }: { params: { category: stri
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        alert('Cover photo update failed: ' + (data.error || res.statusText));
+        alert('Cover photo update failed: ' + (data.error || res.statusText) + ' (status ' + res.status + ')');
         return;
       }
       alert('Cover photo updated!');
