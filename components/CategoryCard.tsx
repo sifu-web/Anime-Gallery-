@@ -43,7 +43,7 @@ export default function CategoryCard({
   return (
     <Link
       href={`/gallery/${category}`}
-      className={`group relative flex flex-col justify-end overflow-hidden rounded-2xl border border-edge bg-surface ring-1 ring-transparent transition-shadow duration-500 ${a.glow} h-[420px] md:h-[480px]`}
+      className={`group relative flex flex-col justify-end overflow-hidden rounded-2xl border border-edge bg-surface ring-1 ring-transparent transition-all duration-500 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.8)] hover:-translate-y-2 hover:shadow-[0_35px_80px_-12px_rgba(0,0,0,0.95)] ${a.glow} h-[420px] md:h-[480px]`}
     >
       <div className="absolute inset-0 overflow-hidden">
         {previewUrl ? (

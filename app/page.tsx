@@ -4,6 +4,12 @@ import { transformedUrl } from '@/lib/imagekit-url';
 import CategoryCard from '@/components/CategoryCard';
 import Reveal from '@/components/Reveal';
 
+const DEFAULT_COVERS: Record<string, string> = {
+  'profile-pic': '/covers/profile-pic.jpg',
+  'anime-wallpaper': '/covers/anime-wallpaper.jpg',
+  'natural-wallpaper': '/covers/natural-wallpaper.jpg',
+};
+
 export const revalidate = 60;
 
 async function getPreviewUrls() {
@@ -16,9 +22,9 @@ async function getPreviewUrls() {
         ORDER BY created_at DESC
         LIMIT 1
       `) as { file_url: string }[];
-      previews[category] = rows[0] ? transformedUrl(rows[0].file_url, { width: 800, quality: 65 }) : null;
+      previews[category] = rows[0] ? transformedUrl(rows[0].file_url, { width: 800, quality: 65 }) : DEFAULT_COVERS[category];
     } catch {
-      previews[category] = null; // DB not configured yet / empty table — show placeholder gradient
+      previews[category] = DEFAULT_COVERS[category]; // DB not configured yet / empty table — show default cover
     }
   }
   return previews;

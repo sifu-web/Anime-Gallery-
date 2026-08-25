@@ -5,7 +5,7 @@ export const CATEGORIES: Record<
   { label: string; description: string; accent: 'sakura' | 'aurora' | 'amber' }
 > = {
   'profile-pic': {
-    label: 'Profile Pic / DP',
+    label: 'Profile Pic',
     description: 'Sharp, expressive display pictures built for a small square frame.',
     accent: 'sakura'
   },
