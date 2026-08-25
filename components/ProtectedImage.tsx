@@ -3,29 +3,17 @@
 import { useState } from 'react';
 import Image, { type ImageProps } from 'next/image';
 
-/**
- * Wraps next/image with:
- *  1. The long-press/right-click deterrents (see prior version's notes).
- *  2. A network-aware loading state: a shimmer placeholder covers the
- *     image until the browser actually fires onLoad. There's no fake
- *     minimum delay — on a fast connection/cache hit this resolves in
- *     a frame or two and the shimmer never really registers; on a slow
- *     connection it stays up for as long as the real download takes.
- *     This directly replaces the old behaviour where a slow-loading
- *     image just showed as a flat black box (bg-surface is #000000)
- *     until it popped in, which read as a broken/glitchy screen.
- *  3. A soft opacity fade-in once the image is ready, instead of a
- *     hard pop-in.
- */
 export default function ProtectedImage(props: ImageProps) {
-  const { className, onLoad, onError, ...rest } = props;
+  const { className, onLoad, onError, fill, ...rest } = props;
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className="relative h-full w-full overflow-hidden">
+    <div className={fill ? 'relative h-full w-full overflow-hidden' : 'relative inline-block overflow-hidden'}>
       {!loaded && !failed && (
-        <div className="skeleton absolute inset-0 z-0" aria-hidden />
+        <div className="skeleton absolute inset-0 z-0 flex items-center justify-center" aria-hidden>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-white/70" />
+        </div>
       )}
 
       {failed ? (
@@ -35,6 +23,7 @@ export default function ProtectedImage(props: ImageProps) {
       ) : (
         <Image
           {...rest}
+          fill={fill}
           draggable={false}
           onContextMenu={(e) => e.preventDefault()}
           onDragStart={(e) => e.preventDefault()}
@@ -53,10 +42,7 @@ export default function ProtectedImage(props: ImageProps) {
       )}
 
       {!failed && (
-        <div
-          className="protected-img-shield"
-          onContextMenu={(e) => e.preventDefault()}
-        />
+        <div className="protected-img-shield" onContextMenu={(e) => e.preventDefault()} />
       )}
     </div>
   );
