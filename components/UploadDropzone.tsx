@@ -36,22 +36,46 @@ export default function UploadDropzone({ category, onUploaded }: { category: Cat
     setUploading(true);
     setErrors(rejected);
 
-    const form = new FormData();
-    form.set('category', category);
-    accepted.forEach((f) => form.append('files', f));
-
-    try {
-      const res = await fetch('/api/images', { method: 'POST', body: form });
-      const data = await res.json();
-      if (data.errors?.length) {
-        setErrors((prev) => [...prev, ...data.errors.map((e: any) => `${e.fileName}: ${e.reason}`)]);
+    // Batch files so each request stays under Vercel's request body limit.
+    // Grouping by cumulative size (not a fixed count) means small files
+    // share a batch efficiently while a large file safely gets its own.
+    const MAX_BATCH_BYTES = 4 * 1024 * 1024; // 4MB, leaves buffer under the 4.5MB platform limit
+    const batches: File[][] = [];
+    let current: File[] = [];
+    let currentBytes = 0;
+    for (const f of accepted) {
+      if (current.length && currentBytes + f.size > MAX_BATCH_BYTES) {
+        batches.push(current);
+        current = [];
+        currentBytes = 0;
       }
-      if (data.uploaded?.length) onUploaded();
-    } catch {
-      setErrors((prev) => [...prev, 'Upload request failed. Check your connection.']);
-    } finally {
-      setUploading(false);
+      current.push(f);
+      currentBytes += f.size;
     }
+    if (current.length) batches.push(current);
+
+    let anyUploaded = false;
+    const allErrors: string[] = [];
+
+    for (const batch of batches) {
+      const form = new FormData();
+      form.set('category', category);
+      batch.forEach((f) => form.append('files', f));
+      try {
+        const res = await fetch('/api/images', { method: 'POST', body: form });
+        const data = await res.json().catch(() => ({}));
+        if (data.errors?.length) {
+          allErrors.push(...data.errors.map((e: any) => `${e.fileName}: ${e.reason}`));
+        }
+        if (data.uploaded?.length) anyUploaded = true;
+      } catch {
+        allErrors.push(`Batch of ${batch.length} file(s) failed. Check your connection.`);
+      }
+    }
+
+    if (allErrors.length) setErrors((prev) => [...prev, ...allErrors]);
+    if (anyUploaded) onUploaded();
+    setUploading(false);
   }
 
   return (
