@@ -174,7 +174,6 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
                 ×
               </button>
           )}
-            )}
           </div>
         ))}
       </div>
