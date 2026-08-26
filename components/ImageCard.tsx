@@ -28,7 +28,7 @@ export default function ImageCard({
   onDirectDownload: () => void;
   onSetCover?: () => void;
 }) {
-  const thumb = transformedUrl(image.thumbnail_url, { width: 480, quality: 65 });
+  const thumb = transformedUrl(image.thumbnail_url, { width: 480, height: 640, quality: 65 });
 
   return (
     <div className="group relative aspect-[3/4] overflow-hidden rounded-xl bg-surface ring-1 ring-white/10">

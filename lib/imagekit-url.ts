@@ -4,10 +4,10 @@
  */
 export function transformedUrl(
   baseUrl: string,
-  opts: { width?: number; quality?: number; format?: 'auto' | 'webp'; background?: string } = {}
+  opts: { width?: number; height?: number; quality?: number; format?: 'auto' | 'webp'; background?: string } = {}
 ) {
-  const { width = 480, quality = 70, format = 'auto', background = '000000' } = opts;
-  const params = [`w-${width}`, `q-${quality}`, `f-${format}`].join(',');
+  const { width = 480, height, quality = 70, format = 'auto', background = '000000' } = opts;
+  const params = [`w-${width}`, ...(height ? [`h-${height}`] : []), `q-${quality}`, `f-${format}`, `c-maintain_ratio`].join(',');
   const separator = baseUrl.includes('?') ? '&' : '?';
   return `${baseUrl}${separator}tr=${params}`;
 }
