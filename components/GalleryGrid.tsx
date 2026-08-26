@@ -192,6 +192,7 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
               onOpen={() => setLightboxId(image.id)}
               onDirectDownload={() => directDownload(image)}
               onSetCover={isAdmin && onSetCover ? () => onSetCover(image.file_url) : undefined}
+                showSelect={isAdmin}
               index={items.indexOf(image)}
             />
             {isAdmin && (
@@ -223,14 +224,16 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
         />
       )}
 
-      <SelectionBar
+      {isAdmin && (
+        <SelectionBar
         count={selected.size}
         onClear={() => setSelected(new Set())}
         onDownload={bulkDownload}
-        onDelete={isAdmin ? bulkDelete : undefined}
+        onDelete={bulkDelete}
         isAdmin={isAdmin}
         busy={bulkBusy}
-      />
+        />
+      )}
     </div>
   );
 }
