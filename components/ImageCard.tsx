@@ -69,7 +69,7 @@ export default function ImageCard({
         className={`absolute left-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-md border ${chip3d} ${
           selected
             ? 'border-sakura bg-sakura text-void'
-            : 'border-white/40 bg-black/55 text-white/80 backdrop-blur-sm'
+            : 'border-white/40 bg-black/55 text-white/80'
         }`}
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -84,7 +84,7 @@ export default function ImageCard({
             e.stopPropagation();
             onSetCover();
           }}
-          className={`absolute right-2 top-2 z-20 rounded-full border border-yellow-400/50 bg-gradient-to-b from-yellow-400/30 to-black/60 px-2.5 py-1 text-xs font-bold text-yellow-300 backdrop-blur-sm ${chip3d}`}
+          className={`absolute right-2 top-2 z-20 rounded-full border border-yellow-400/50 bg-gradient-to-b from-yellow-400/30 to-black/60 px-2.5 py-1 text-xs font-bold text-yellow-300 ${chip3d}`}
         >
           Cover
         </button>
@@ -97,7 +97,7 @@ export default function ImageCard({
           onDirectDownload();
         }}
         aria-label="Download image"
-        className={`absolute bottom-2 right-2 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-gradient-to-b from-white/25 to-black/50 text-white backdrop-blur-sm ${chip3d}`}
+        className={`absolute bottom-2 right-2 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-gradient-to-b from-white/25 to-black/50 text-white ${chip3d}`}
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path

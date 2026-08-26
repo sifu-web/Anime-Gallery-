@@ -61,7 +61,10 @@ export default function Lightbox({
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative mx-auto max-h-[70vh] w-fit overflow-hidden rounded-xl bg-surface">
+        <div
+          className="relative mx-auto max-h-[70vh] w-fit overflow-hidden rounded-xl bg-surface"
+          style={{ aspectRatio: `${image.width ?? 1600} / ${image.height ?? 900}` }}
+        >
           {!imgLoaded && (
             <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface/80">
               <div className="h-10 w-10 animate-spin rounded-full border-4 border-edge border-t-sakura" />
@@ -86,7 +89,11 @@ export default function Lightbox({
           />
         </div>
 
-        <div className="glass flex flex-wrap items-center justify-between gap-3 rounded-xl border border-edge px-4 py-3">
+        <div
+          className={`glass flex flex-wrap items-center justify-between gap-3 rounded-xl border border-edge px-4 py-3 transition-opacity duration-300 ${
+            imgLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
           <div>
             <p className="font-display text-sm font-medium text-ink">{image.title}</p>
             <p className="font-mono text-xs text-muted">
