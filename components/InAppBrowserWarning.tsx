@@ -28,7 +28,7 @@ export default function InAppBrowserWarning() {
   }
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[100] bg-red-600 text-white px-6 py-6 text-base font-semibold flex flex-col gap-4 shadow-2xl border-b-4 border-red-900">
+    <div className="fixed inset-x-0 top-0 z-[100] bg-red-600 text-white px-6 py-6 text-base font-semibold flex flex-col gap-4 border-b-4 border-red-900">
       <p className="leading-snug text-xl">
         ⚠️ TikTok and Messenger browser download problem.
         <br />
