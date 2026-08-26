@@ -7,7 +7,7 @@ export function transformedUrl(
   opts: { width?: number; quality?: number; format?: 'auto' | 'webp'; background?: string } = {}
 ) {
   const { width = 480, quality = 70, format = 'auto', background = '000000' } = opts;
-  const params = [`w-${width}`, `q-${quality}`, `f-${format}`, `bg-${background}`].join(',');
+  const params = [`w-${width}`, `q-${quality}`, `f-${format}`].join(',');
   const separator = baseUrl.includes('?') ? '&' : '?';
   return `${baseUrl}${separator}tr=${params}`;
 }
