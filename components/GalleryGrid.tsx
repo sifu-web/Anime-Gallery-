@@ -70,7 +70,7 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
           loadPage(next);
         }
       },
-      { rootMargin: '600px' } // start loading well before the sentinel is actually visible
+      { rootMargin: '300px' }
     );
     observer.observe(el);
     return () => observer.disconnect();
