@@ -192,6 +192,7 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
               onOpen={() => setLightboxId(image.id)}
               onDirectDownload={() => directDownload(image)}
               onSetCover={isAdmin && onSetCover ? () => onSetCover(image.file_url) : undefined}
+              index={items.indexOf(image)}
             />
             {isAdmin && (
               <button

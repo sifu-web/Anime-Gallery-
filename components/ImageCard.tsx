@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { transformedUrl } from '@/lib/imagekit-url';
 import type { ImageItem } from '@/lib/types';
 import ProtectedImage from './ProtectedImage';
@@ -19,7 +20,8 @@ export default function ImageCard({
   onToggleSelect,
   onOpen,
   onDirectDownload,
-  onSetCover
+  onSetCover,
+  index = 0
 }: {
   image: ImageItem;
   selected: boolean;
@@ -27,12 +29,18 @@ export default function ImageCard({
   onOpen: () => void;
   onDirectDownload: () => void;
   onSetCover?: () => void;
+  index?: number;
 }) {
   const isProfilePic = image.category === "profile-pic";
   const thumb = transformedUrl(image.thumbnail_url, { width: 480, height: isProfilePic ? undefined : 640, quality: 65, crop: !isProfilePic });
 
   return (
-    <div className="group relative aspect-[3/4] overflow-hidden rounded-xl bg-surface ring-1 ring-white/10">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: Math.min(index * 0.06, 0.4) }}
+      whileHover={{ scale: 1.03, boxShadow: "0 0 24px 4px rgba(236,72,153,0.25)" }}
+      className="group relative aspect-[3/4] overflow-hidden rounded-xl bg-surface ring-1 ring-white/10">
       <button onClick={onOpen} className="absolute inset-0" aria-label={`Open ${image.title}`}>
         <ProtectedImage
           src={thumb}
@@ -99,6 +107,6 @@ export default function ImageCard({
           />
         </svg>
       </button>
-    </div>
+    </motion.div>
   );
 }
