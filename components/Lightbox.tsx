@@ -47,7 +47,7 @@ export default function Lightbox({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-end pb-6 bg-void/90 backdrop-blur-md transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-between py-6 bg-void/90 backdrop-blur-md transition-opacity duration-300 ${
         mounted ? 'opacity-100' : 'opacity-0'
       }`}
       onClick={onClose}
