@@ -35,10 +35,7 @@ export default function ProtectedImage(props: ImageProps) {
             setFailed(true);
             onError?.(e);
           }}
-          className={`protected-img relative z-[1] transition-opacity duration-500 ease-out ${
-            loaded ? 'opacity-100' : 'opacity-0'
-          } ${className ?? ''}`}
-        />
+          className={`protected-img relative z-[1] ${className ?? ''}`}
       )}
 
       {!failed && (
