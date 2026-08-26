@@ -1,28 +1,37 @@
 /**
- * Ad integration point for the "download → ad → download" flow.
+ * Ad integration for the "download → ad → download" flow.
  *
- * IMPORTANT: No ad provider is wired in yet, and this project deliberately
- * does not simulate one — a fake ad experience would misrepresent real
- * inventory and could violate an ad network's policy. Until you add a real,
- * approved provider:
+ * SMARTLINK_URL: Adsterra Direct Link/SmartLink URL.
+ * Change only this constant to update the ad provider.
  *
- *   - runAdExperience() resolves immediately, so downloads work normally
- *     for every visitor (nobody sees a broken or fake ad step).
- *
- * To wire up a real provider later:
- *   1. Set NEXT_PUBLIC_AD_PROVIDER in your env to the provider's identifier.
- *   2. Replace the body of runAdExperience() with that provider's official
- *      SDK/embed call, following their current approved ad format — e.g.
- *      "show a rewarded/interstitial unit and resolve when it completes or
- *      is closed."
- *   3. Server-side admin bypass already exists independently of this file:
- *      every download-count increment and the admin dashboard both key off
- *      the verified session cookie (see lib/auth.ts), not a client flag, so
- *      a visitor can't spoof admin status by editing frontend state.
+ * Frequency cap: ad shown at most once per 30 minutes per browser session.
+ * Admin bypass: handled in GalleryGrid.tsx (if !isAdmin).
  */
+
+const SMARTLINK_URL = 'https://www.profitableratecpmnetwork.com/xfnc7gci3v?key=ab60954a888a1ca110b4c820f6fcee81';
+const FREQ_CAP_MS = 30 * 60 * 1000; // 30 minutes
+const LAST_AD_KEY = 'ag_last_ad';
+
+function shouldShowAd(): boolean {
+  try {
+    const last = localStorage.getItem(LAST_AD_KEY);
+    if (!last) return true;
+    return Date.now() - parseInt(last, 10) > FREQ_CAP_MS;
+  } catch {
+    return true;
+  }
+}
+
+function markAdShown(): void {
+  try {
+    localStorage.setItem(LAST_AD_KEY, String(Date.now()));
+  } catch {}
+}
+
 export async function runAdExperience(): Promise<void> {
-  const provider = process.env.NEXT_PUBLIC_AD_PROVIDER;
-  if (!provider) return; // no provider configured — proceed straight to download
-  // Real integration goes here once a provider is chosen.
-  return;
+  if (!shouldShowAd()) return;
+  try {
+    window.open(SMARTLINK_URL, '_blank', 'noopener,noreferrer');
+  } catch {}
+  markAdShown();
 }
