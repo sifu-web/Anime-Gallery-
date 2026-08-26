@@ -63,7 +63,7 @@ export default function Lightbox({
       >
         <div className="relative mx-auto max-h-[70vh] w-fit overflow-hidden rounded-xl bg-surface">
           {!imgLoaded && (
-            <div className="flex h-64 w-64 items-center justify-center">
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface/80">
               <div className="h-10 w-10 animate-spin rounded-full border-4 border-edge border-t-sakura" />
             </div>
           )}
@@ -78,6 +78,7 @@ export default function Lightbox({
           <ProtectedImage
             src={previewUrl}
             alt={image.title}
+            onLoad={() => setImgLoaded(true)}
             width={image.width ?? 1600}
             height={image.height ?? 900}
             className="relative mx-auto max-h-[70vh] w-auto object-contain drop-shadow-2xl"
