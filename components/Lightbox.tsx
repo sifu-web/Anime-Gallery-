@@ -19,6 +19,7 @@ export default function Lightbox({
   onDownload: () => void;
 }) {
   const [mounted, setMounted] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
@@ -46,7 +47,7 @@ export default function Lightbox({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-void/90 backdrop-blur-md transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-end pb-6 bg-void/90 backdrop-blur-md transition-opacity duration-300 ${
         mounted ? 'opacity-100' : 'opacity-0'
       }`}
       onClick={onClose}
@@ -61,6 +62,11 @@ export default function Lightbox({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative mx-auto max-h-[70vh] w-fit overflow-hidden rounded-xl bg-surface">
+          {!imgLoaded && (
+            <div className="flex h-64 w-64 items-center justify-center">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-edge border-t-sakura" />
+            </div>
+          )}
           <div className="absolute -inset-6">
             <ProtectedImage
               src={previewUrl}
