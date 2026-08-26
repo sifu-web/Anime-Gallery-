@@ -36,6 +36,7 @@ export default function ProtectedImage(props: ImageProps) {
             onError?.(e);
           }}
           className={`protected-img relative z-[1] ${className ?? ''}`}
+            />
       )}
 
       {!failed && (
