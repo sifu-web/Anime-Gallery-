@@ -42,7 +42,7 @@ export default function Lightbox({
   // is a noticeably worse file than what the ad-gated download delivers.
   // This narrows the incentive to long-press/screenshot this preview
   // instead of just going through Download.
-  const previewUrl = transformedUrl(image.file_url, { width: 1000, quality: 60 });
+  const previewUrl = transformedUrl(image.file_url, { width: 1000, quality: 60, crop: false });
 
   return (
     <div
