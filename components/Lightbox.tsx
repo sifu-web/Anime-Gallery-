@@ -55,7 +55,7 @@ export default function Lightbox({
       aria-label={image.title}
     >
       <div
-        className={`relative flex max-h-[90vh] w-full max-w-4xl flex-col gap-4 px-4 transition-transform duration-300 ${
+        className={`relative flex max-h-[90vh] w-full max-w-4xl flex-col gap-4 px-4 pb-4 transition-transform duration-300 ${
           mounted ? 'scale-100' : 'scale-95'
         }`}
         onClick={(e) => e.stopPropagation()}
