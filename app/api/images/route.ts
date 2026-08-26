@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
           ${uploaded.fileId},
           ${title || file.name},
           ${uploaded.url},
-          ${uploaded.thumbnailUrl ?? uploaded.url},
+          ${uploaded.url},
           ${uploaded.width ?? null},
           ${uploaded.height ?? null},
           ${uploaded.size ?? file.size},
