@@ -120,16 +120,28 @@ export default function GalleryGrid({ category, isAdmin, onSetCover }: { categor
     if (!isAdmin) await runAdExperience();
     setBulkBusy(true);
     try {
-      const res = await fetch('/api/images/bulk-download', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids: Array.from(selected) })
-      });
-      if (!res.ok) throw new Error('failed');
-      await downloadBlobResponse(res, `anime-gallery-${Date.now()}.zip`);
+      const selectedItems = items.filter(img => selected.has(img.id));
+      for (let i = 0; i < selectedItems.length; i++) {
+        const img = selectedItems[i];
+        try {
+          const res = await fetch(img.file_url);
+          if (res.ok) {
+            await downloadBlobResponse(res, `${img.title || 'wallpaper'}.jpg`);
+          }
+        } catch {
+          const a = document.createElement('a');
+          a.href = img.file_url;
+          a.download = `${img.title || 'wallpaper'}.jpg`;
+          a.target = '_blank';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+        if (i < selectedItems.length - 1) await new Promise(r => setTimeout(r, 800));
+      }
       setSelected(new Set());
     } catch {
-      setError('Bulk download failed. Try a smaller selection.');
+      setError('Bulk download failed.');
     } finally {
       setBulkBusy(false);
     }
