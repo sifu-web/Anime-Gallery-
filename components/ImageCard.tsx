@@ -21,7 +21,8 @@ export default function ImageCard({
   onOpen,
   onDirectDownload,
   onSetCover,
-  index = 0
+  index = 0,
+  showSelect = true
 }: {
   image: ImageItem;
   selected: boolean;
@@ -30,6 +31,7 @@ export default function ImageCard({
   onDirectDownload: () => void;
   onSetCover?: () => void;
   index?: number;
+  showSelect?: boolean;
 }) {
   const isProfilePic = image.category === "profile-pic";
   const thumb = transformedUrl(image.thumbnail_url, { width: 480, height: isProfilePic ? undefined : 640, quality: 65, crop: !isProfilePic });
@@ -56,8 +58,8 @@ export default function ImageCard({
           parts of an image, not just on hover (hover never fires on touch). */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/40" />
 
-      {/* Select checkbox — top-left, always visible */}
-      <button
+      {/* Select checkbox — top-left, admin only */}
+      {showSelect && <button
         onClick={(e) => {
           e.stopPropagation();
           onToggleSelect();
@@ -73,7 +75,7 @@ export default function ImageCard({
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-      </button>
+      </button>}
 
       {/* Set-as-cover — top-right, admin only, always visible */}
       {onSetCover && (
