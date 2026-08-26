@@ -9,7 +9,7 @@ export default function ProtectedImage(props: ImageProps) {
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className={fill ? 'relative h-full w-full overflow-hidden' : 'relative inline-block overflow-hidden'}>
+    <div className={fill ? 'relative h-full w-full overflow-hidden' : 'relative inline-block overflow-hidden'} style={{ transform: 'translateZ(0)' }}>
       {!loaded && !failed && (
         <div className="skeleton absolute inset-0 z-0 flex items-center justify-center" aria-hidden>
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-white/70" />
