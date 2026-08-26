@@ -8,7 +8,7 @@ export default function InAppBrowserWarning() {
 
   useEffect(() => {
     const ua = navigator.userAgent || '';
-    const isInApp = /FBAN|FBAV|Instagram|Line\/|Messenger/i.test(ua);
+    const isInApp = /FBAN|FBAV|Instagram|Line\/|Messenger|TikTok|musical_ly|BytedanceWebview/i.test(ua);
     if (!isInApp) return;
 
     if (/Android/i.test(ua)) setPlatform('android');
@@ -28,15 +28,16 @@ export default function InAppBrowserWarning() {
   }
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[100] bg-sakura text-void px-4 py-3 text-sm font-medium flex flex-col gap-2 shadow-lg">
-      <p>
-        Downloads may not work in this in-app browser. For the best experience, open this page in{' '}
-        {platform === 'android' ? 'Chrome' : 'Safari'}.
+    <div className="fixed inset-x-0 top-0 z-[100] bg-sakura text-void px-5 py-5 text-base font-semibold flex flex-col gap-3 shadow-2xl border-b-4 border-void animate-pulse">
+      <p className="leading-snug text-lg">
+        ⚠️ TikTok and Messenger browser download problem.
+        <br />
+        Please tap to open in <span className="underline">{platform === 'android' ? 'Chrome' : 'Safari'}</span>.
       </p>
       {platform === 'android' ? (
         <button
           onClick={openInChrome}
-          className="self-start rounded-full bg-void text-white px-4 py-1.5 text-xs font-bold"
+          className="self-start rounded-full bg-void text-white px-6 py-2.5 text-sm font-bold"
         >
           Open in Chrome
         </button>
