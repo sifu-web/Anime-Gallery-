@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import InAppBrowserWarning from '@/components/InAppBrowserWarning';
 
 const display = Space_Grotesk({
   subsets: ['latin'],
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="bg-void text-ink font-body antialiased selection:bg-sakura/30">
+        <InAppBrowserWarning />
         {children}
       </body>
     </html>
