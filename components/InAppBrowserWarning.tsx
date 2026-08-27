@@ -47,14 +47,16 @@ export default function InAppBrowserWarning() {
         </button>
 
         <div className="mx-auto mb-5 h-20 w-20">
-          <svg viewBox="0 0 48 48" className="h-20 w-20">
-            <circle cx="24" cy="24" r="24" fill="#fff" />
-            <path d="M24 6a18 18 0 0115.59 9H24a9 9 0 00-7.79 4.5L8.41 12A17.94 17.94 0 0124 6z" fill="#EA4335" />
-            <path d="M42 24a17.9 17.9 0 01-2.41 9H26.2a9 9 0 004.4-6.94L39.4 12.9A17.94 17.94 0 0142 24z" fill="#FBBC05" />
-            <path d="M24 42a17.94 17.94 0 01-15.59-9L16.2 19.5A9 9 0 0024 33a8.9 8.9 0 004.4-1.16l8.79 13.7A17.9 17.9 0 0124 42z" fill="#34A853" />
-            <circle cx="24" cy="24" r="9" fill="#4285F4" />
-            <circle cx="24" cy="24" r="6.5" fill="#fff" />
-            <circle cx="24" cy="24" r="5.2" fill="#4285F4" />
+          <svg viewBox="0 0 192 192" className="h-20 w-20">
+            <defs>
+              <clipPath id="chromeInner"><circle cx="96" cy="96" r="48" /></clipPath>
+            </defs>
+            <circle cx="96" cy="96" r="96" fill="#fff" />
+            <path d="M96 30a66 66 0 0157.16 33H96a33 33 0 00-28.58 16.5L26.84 45.7A95.86 95.86 0 0196 30z" fill="#EA4335" />
+            <path d="M166 96a65.7 65.7 0 01-8.84 33H108a33 33 0 0016.16-25.5L161.16 46.9A95.5 95.5 0 01166 96z" fill="#FBBC04" />
+            <path d="M96 166a96 96 0 01-83.16-48L54.42 91.5A33 33 0 0096 129a32.8 32.8 0 0016.16-4.27l32.26 55.86A95.5 95.5 0 0196 166z" fill="#34A853" />
+            <circle cx="96" cy="96" r="37" fill="#4285F4" />
+            <circle cx="96" cy="96" r="37" fill="none" stroke="#fff" strokeWidth="8" />
           </svg>
         </div>
 
