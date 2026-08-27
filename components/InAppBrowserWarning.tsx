@@ -46,9 +46,15 @@ export default function InAppBrowserWarning() {
           &times;
         </button>
 
-        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600">
-          <svg viewBox="0 0 24 24" className="h-10 w-10 fill-white">
-            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2zm0-8h-2V7h2z" />
+        <div className="mx-auto mb-5 h-20 w-20">
+          <svg viewBox="0 0 48 48" className="h-20 w-20">
+            <circle cx="24" cy="24" r="24" fill="#fff" />
+            <path d="M24 6a18 18 0 0115.59 9H24a9 9 0 00-7.79 4.5L8.41 12A17.94 17.94 0 0124 6z" fill="#EA4335" />
+            <path d="M42 24a17.9 17.9 0 01-2.41 9H26.2a9 9 0 004.4-6.94L39.4 12.9A17.94 17.94 0 0142 24z" fill="#FBBC05" />
+            <path d="M24 42a17.94 17.94 0 01-15.59-9L16.2 19.5A9 9 0 0024 33a8.9 8.9 0 004.4-1.16l8.79 13.7A17.9 17.9 0 0124 42z" fill="#34A853" />
+            <circle cx="24" cy="24" r="9" fill="#4285F4" />
+            <circle cx="24" cy="24" r="6.5" fill="#fff" />
+            <circle cx="24" cy="24" r="5.2" fill="#4285F4" />
           </svg>
         </div>
 
